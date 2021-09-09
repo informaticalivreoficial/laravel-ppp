@@ -16,7 +16,8 @@ class CreatePlanosTable extends Migration
         Schema::create('planos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->unique();
-            $table->string('slug')->unique();
+            $table->integer('status')->default('0');
+            $table->string('slug')->nullable();
             $table->decimal('valor', 10, 2)->nullable();
             $table->text('content')->nullable();
             $table->timestamps();

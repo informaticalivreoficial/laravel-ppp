@@ -28,7 +28,7 @@ class PlanoController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.planos.create');
     }
 
     /**
@@ -39,7 +39,14 @@ class PlanoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $criarPlano = Plano::create($request->all());
+        $criarPlano->fill($request->all());
+
+        $criarPlano->setSlug();
+        
+        return redirect()->route('admin.planos.edit', [
+            'plano' => $criarPlano->id,
+        ])->with(['color' => 'success', 'message' => 'Plano cadastrado com sucesso!']);
     }
 
     /**
@@ -61,7 +68,11 @@ class PlanoController extends Controller
      */
     public function edit($id)
     {
-        //
+        $plano = Plano::where('id', $id)->first();
+
+        return view('admin.planos.edit',[
+            'plano' => $plano
+        ]);
     }
 
     /**
@@ -73,7 +84,7 @@ class PlanoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $plano = Plano::where('id', $id)->first();
     }
 
     /**
