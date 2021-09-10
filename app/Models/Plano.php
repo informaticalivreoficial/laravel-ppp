@@ -13,13 +13,24 @@ class Plano extends Model
     protected $fillable = [
         'name',
         'slug',
+        'status',
         'valor',
+        'views',
         'content'
     ];
 
     /**
      * Scopes
      */
+    public function scopeAvailable($query)
+    {
+        return $query->where('status', 1);
+    }
+    
+    public function scopeUnavailable($query)
+    {
+        return $query->where('status', 0);
+    }    
 
     /**
      * Relacionamentos
@@ -28,6 +39,26 @@ class Plano extends Model
      /**
      * Accerssors and Mutators
      */
+
+    public function setValorAttribute($value)
+    {
+        $this->attributes['valor'] = (!empty($value) ? floatval($this->convertStringToDouble($value)) : null);
+    }
+
+    public function getValorAttribute($value)
+    {
+        if (empty($value)) {
+            return null;
+        }
+
+        return number_format($value, 2, ',', '.');
+    }
+
+    public function setStatusAttribute($value)
+    {
+        $this->attributes['status'] = ($value == '1' ? 1 : 0);
+    }
+
     public function setSlug()
     {
         if(!empty($this->name)){
@@ -39,5 +70,13 @@ class Plano extends Model
             }            
             $this->save();
         }
+    }
+
+    private function convertStringToDouble($param)
+    {
+        if(empty($param)){
+            return null;
+        }
+        return str_replace(',', '.', str_replace('.', '', $param));
     }
 }

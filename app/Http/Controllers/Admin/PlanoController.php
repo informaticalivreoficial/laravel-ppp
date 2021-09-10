@@ -3,69 +3,44 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\Plano as RequestsPlano;
 use App\Models\Plano;
 use Illuminate\Http\Request;
 
 class PlanoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function index()
     {
-        $planos = Plano::orderBy('created_at', 'DESC')->paginate(25);
+        $planos = Plano::orderBy('created_at', 'DESC')->paginate();
         return view('admin.planos.index',[
             'planos' => $planos
         ]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function create()
     {
         return view('admin.planos.create');
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    
+    public function store(RequestsPlano $request)
     {
         $criarPlano = Plano::create($request->all());
         $criarPlano->fill($request->all());
 
         $criarPlano->setSlug();
         
-        return redirect()->route('admin.planos.edit', [
+        return redirect()->route('planos.edit', [
             'plano' => $criarPlano->id,
         ])->with(['color' => 'success', 'message' => 'Plano cadastrado com sucesso!']);
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function show($id)
     {
         //
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function edit($id)
     {
         $plano = Plano::where('id', $id)->first();
@@ -74,27 +49,63 @@ class PlanoController extends Controller
             'plano' => $plano
         ]);
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    
+    public function update(RequestsPlano $request, $id)
     {
-        $plano = Plano::where('id', $id)->first();
+        $planoUpdate = Plano::where('id', $id)->first();
+        $planoUpdate->fill($request->all());
+
+        $planoUpdate->save();
+        $planoUpdate->setSlug();        
+
+        return redirect()->route('planos.edit', [
+            'plano' => $planoUpdate->id,
+        ])->with(['color' => 'success', 'message' => 'Plano atualizado com sucesso!']);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function planoSetStatus(Request $request)
+    {        
+        $plano = Plano::find($request->id);
+        $plano->status = $request->status;
+        $plano->save();
+        return response()->json(['success' => true]);
+    } 
+    
+    public function search(Request $request)
     {
-        //
+        $filters = $request->except('_token');
+        $planos = Plano::where('name', 'LIKE', "%{$request->search}%")
+                        ->orWhere('content', 'LIKE', "%{$request->search}%")
+                        ->paginate();
+
+        return view('admin.planos.index',[
+            'planos' => $planos,
+            'filters' => $filters
+        ]);
+    }
+
+    public function delete(Request $request)
+    {
+        $plano = Plano::where('id', $request->id)->first();
+        if(!empty($plano)){
+            $json = "Você tem certeza que deseja excluir este Plano?";
+            return response()->json(['error' => $json,'id' => $plano->id]);
+        }else{
+            return response()->json([
+                'success' => true,
+                'id' => $plano->id
+            ]);
+        }
+    }
+    
+    public function deleteon(Request $request)
+    {
+        $delete = Plano::where('id', $request->plano_id)->first();        
+
+        $planoR = $delete->name;
+        if(!empty($delete)){            
+            $delete->delete();
+        }
+        return redirect()->route('planos.index')->with(['color' => 'success', 'message' => 'O plano '.$planoR.' foi removido com sucesso!']);
     }
 }

@@ -17,6 +17,7 @@ class CreatePlanosTable extends Migration
             $table->increments('id');
             $table->string('name')->unique();
             $table->integer('status')->default('0');
+            $table->integer('views')->default('0');
             $table->string('slug')->nullable();
             $table->decimal('valor', 10, 2)->nullable();
             $table->text('content')->nullable();

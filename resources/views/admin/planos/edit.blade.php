@@ -36,7 +36,7 @@ $config = [
     </div>
     <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Painel de Controle</a></li>
+            <li class="breadcrumb-item"><a href="{{route('home')}}">Painel de Controle</a></li>
             <li class="breadcrumb-item"><a href="{{route('planos.index')}}">Planos</a></li>
             <li class="breadcrumb-item active">Editar Plano</li>
         </ol>
@@ -64,53 +64,49 @@ $config = [
 </div>
 <div class="row">
     <div class="col-12">
-        <div class="card card-teal card-outline card-outline-tabs">            
+        <div class="card card-teal card-outline">            
             <div class="card-body">
-                <form action="{{ route('planos.update',['plano', $plano->id]) }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('planos.update',$plano->id) }}" method="post">
                 @csrf   
-                @method('PUT')                     
-                <div class="tab-content" id="custom-tabs-four-tabContent">
-                    <div class="tab-pane fade show active" id="custom-tabs-conteudo" role="tabpanel" aria-labelledby="custom-tabs-conteudo-tab">
-                                               
-                        <div class="row">
-                            <div class="col-12 col-sm-7 col-md-8 col-lg-8">
-                                <div class="form-group">
-                                    <label class="labelforms text-muted"><b>Nome:</b></label>
-                                    <input class="form-control" name="name" placeholder="Nome do Plano" value="{{old('name') ?? $plano->name}}">
-                                </div>
-                            </div>                            
-                            <div class="col-12 col-sm-5 col-md-4 col-lg-4">
-                                <div class="form-group">
-                                    <label class="labelforms text-muted"><b>Status:</b></label>
-                                    <select name="status" class="form-control">
-                                        <option value="1" {{ (old('status') == '1' ? 'selected' : ($plano->status == 1 ? 'selected' : '')) }}>Publicado</option>
-                                        <option value="0" {{ (old('status') == '0' ? 'selected' : ($plano->status == 0 ? 'selected' : '')) }}>Rascunho</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                       
-                        <div class="row">                            
-                            <div class="col-12">   
-                                <label class="labelforms text-muted"><b>Descrição do Plano:</b></label>
-                                <x-adminlte-text-editor name="content" v placeholder="Descrição do plano..." :config="$config">{{old('content') ?? $plano->content}}</x-adminlte-text-editor>                                                      
+                @method('PUT')         
+                    <div class="row">
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <label class="labelforms text-muted"><b>Nome:</b></label>
+                                <input class="form-control" name="name" placeholder="Nome do Plano" value="{{old('name') ?? $plano->name}}">
                             </div>
                         </div> 
-                    </div>                     
-                    
-                </div> 
-                <div class="row text-right">
-                    <div class="col-12 mb-4">
-                        <button type="submit" class="btn btn-success btn-lg"><i class="nav-icon fas fa-check mr-2"></i> Atualizar Agora</button>
+                        <div class="col-12 col-sm-3 col-md-3 col-lg-3"> 
+                            <div class="form-group">
+                                <label class="labelforms text-muted"><b>Valor</b></label>
+                                <input type="text" class="form-control mask-money" name="valor" value="{{ old('valor') ?? $plano->valor }}">
+                            </div>
+                        </div>                           
+                        <div class="col-12 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label class="labelforms text-muted"><b>Status:</b></label>
+                                <select name="status" class="form-control">
+                                    <option value="1" {{ (old('status') == '1' ? 'selected' : ($plano->status == 1 ? 'selected' : '')) }}>Publicado</option>
+                                    <option value="0" {{ (old('status') == '0' ? 'selected' : ($plano->status == 0 ? 'selected' : '')) }}>Rascunho</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                    <div class="row">                            
+                        <div class="col-12">   
+                            <label class="labelforms text-muted"><b>Descrição do Plano:</b></label>
+                            <x-adminlte-text-editor name="content" v placeholder="Descrição do plano..." :config="$config">{{old('content') ?? $plano->content}}</x-adminlte-text-editor>                                                      
+                        </div>
+                    </div> 
+                    <div class="row text-right">
+                        <div class="col-12 mb-4">
+                            <button type="submit" class="btn btn-success btn-lg"><i class="nav-icon fas fa-check mr-2"></i> Atualizar Agora</button>
+                        </div>
+                    </div>
                 </form>
-            </div>
-            
+            </div> 
         </div>
-        
-        
-    </div>
+    </div>            
 </div>
 @stop
 
