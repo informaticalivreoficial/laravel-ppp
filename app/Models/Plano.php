@@ -35,6 +35,10 @@ class Plano extends Model
     /**
      * Relacionamentos
      */
+    public function details()
+    {
+        return $this->hasMany(DetailPlan::class,'plano', 'id');
+    }
 
      /**
      * Accerssors and Mutators

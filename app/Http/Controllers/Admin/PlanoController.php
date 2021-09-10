@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Plano as RequestsPlano;
+use App\Models\DetailPlan;
 use App\Models\Plano;
 use Illuminate\Http\Request;
 
@@ -87,7 +87,11 @@ class PlanoController extends Controller
     public function delete(Request $request)
     {
         $plano = Plano::where('id', $request->id)->first();
-        if(!empty($plano)){
+        $detalhes = DetailPlan::where('plano', $request->id)->first();
+        if(!empty($plano) && !empty($detalhes)){
+            $json = "Você tem certeza que deseja excluir este Plano? Este plano possui detalhes e todos serão apagados!";
+            return response()->json(['error' => $json,'id' => $plano->id]);
+        }elseif(!empty($plano) && empty($detalhes)){
             $json = "Você tem certeza que deseja excluir este Plano?";
             return response()->json(['error' => $json,'id' => $plano->id]);
         }else{
@@ -100,7 +104,14 @@ class PlanoController extends Controller
     
     public function deleteon(Request $request)
     {
-        $delete = Plano::where('id', $request->plano_id)->first();        
+        $delete = Plano::where('id', $request->plano_id)->first(); 
+
+        $detalhes = DetailPlan::where('plano', $request->plano_id)->first();  
+        if(!empty($detalhes)){
+            foreach($detalhes as $detail):
+                $detail->delete();
+            endforeach;
+        }   
 
         $planoR = $delete->name;
         if(!empty($delete)){            

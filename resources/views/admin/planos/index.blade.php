@@ -48,7 +48,7 @@
     <!-- /.card-header -->
     <div class="card-body">
         <div class="row">
-            <div class="col-12">
+            <div class="col-12">                
                 @if(session()->exists('message'))
                     @message(['color' => session()->get('color')])
                         {{ session()->get('message') }}
@@ -61,7 +61,8 @@
                 <thead>
                     <tr>
                         <th>Nome</th>
-                        <th>Valor</th>
+                        <th class="text-center">Detalhes</th>
+                        <th class="text-center">Valor</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
@@ -69,10 +70,12 @@
                     @foreach($planos as $plano)                    
                     <tr style="{{ ($plano->status == '1' ? '' : 'background: #fffed8 !important;')  }}">                            
                         <td>{{$plano->name}}</td>
-                        <td>R$ {{str_replace(',00', '', $plano->valor)}}</td>
-                        <td class="acoes">
+                        <td class="text-center">{{$plano->details()->count()}}</td>
+                        <td class="text-center">R$ {{str_replace(',00', '', $plano->valor)}}</td>
+                        <td>
                             <input type="checkbox" data-onstyle="success" data-offstyle="warning" data-size="mini" class="toggle-class" data-id="{{ $plano->id }}" data-toggle="toggle" data-style="slow" data-on="<i class='fas fa-check'></i>" data-off="<i style='color:#fff !important;' class='fas fa-exclamation-triangle'></i>" {{ $plano->status == true ? 'checked' : ''}}>
                             <a data-toggle="tooltip" data-placement="top" title="Editar Plano" href="{{route('planos.edit',$plano->id)}}" class="btn btn-xs btn-default"><i class="fas fa-pen"></i></a>
+                            <a data-toggle="tooltip" data-placement="top" title="Detalhes do Plano" href="{{route('plan.details.index',$plano->slug)}}" class="btn btn-xs btn-primary">Detalhes</a>
                             <button data-placement="top" title="Remover Plano" type="button" class="btn btn-xs btn-danger text-white j_modal_btn" data-id="{{$plano->id}}" data-toggle="modal" data-target="#modal-default"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
