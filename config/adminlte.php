@@ -270,8 +270,8 @@ return [
             'icon' => 'fas fa-address-book',
         ],
         [
-            'text' => 'change_password',
-            'url'  => 'admin/settings',
+            'text' => 'Permissões',
+            'url'  => 'admin/permissoes',
             'icon' => 'fas fa-fw fa-lock',
         ],
         [

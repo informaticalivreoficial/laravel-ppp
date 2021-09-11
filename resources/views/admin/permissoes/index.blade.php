@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Gerenciar Perfis')
+@section('title', 'Gerenciar Permissões')
 
 @section('css')
 <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
@@ -9,12 +9,12 @@
 @section('content_header')
 <div class="row mb-2">
     <div class="col-sm-6">
-        <h1><i class="fas fa-search mr-2"></i> Perfis</h1>
+        <h1><i class="fas fa-search mr-2"></i> Permissões</h1>
     </div>
     <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{{route('home')}}">Painel de Controle</a></li>
-            <li class="breadcrumb-item active">Perfis</li>
+            <li class="breadcrumb-item active">Permissões</li>
         </ol>
     </div>
 </div> 
@@ -25,7 +25,7 @@
     <div class="card-header">
         <div class="row">            
             <div class="col-12 my-2 text-right">
-                <a href="{{route('profiles.create')}}" class="btn btn-sm btn-default"><i class="fas fa-plus mr-2"></i> Cadastrar Novo</a>
+                <a href="{{route('permissoes.create')}}" class="btn btn-sm btn-default"><i class="fas fa-plus mr-2"></i> Cadastrar Novo</a>
             </div>
         </div>
       </div>    
@@ -49,12 +49,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($profiles as $profile)                    
+                    @foreach($permissoes as $permissao)                    
                     <tr>                            
-                        <td>{{$profile->name}}</td>
+                        <td>{{$permissao->name}}</td>
                         <td>
-                            <a data-toggle="tooltip" data-placement="top" title="Editar Plano" href="{{route('profiles.edit',[ 'profile' =>$profile->id] )}}" class="btn btn-xs btn-default"><i class="fas fa-pen"></i></a>
-                            <button data-placement="top" title="Remover Perfil" type="button" class="btn btn-xs btn-danger text-white j_modal_btn" data-id="{{$profile->id}}" data-toggle="modal" data-target="#modal-default"><i class="fas fa-trash"></i></button>
+                            <a data-toggle="tooltip" data-placement="top" title="Editar Plano" href="{{route('permissoes.edit',[ 'permissao' =>$permissao->id] )}}" class="btn btn-xs btn-default"><i class="fas fa-pen"></i></a>
+                            <button data-placement="top" title="Remover Permissão" type="button" class="btn btn-xs btn-danger text-white j_modal_btn" data-id="{{$permissao->id}}" data-toggle="modal" data-target="#modal-default"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                     @endforeach
@@ -71,7 +71,7 @@
         @endif
     </div>
     <div class="card-footer paginacao">  
-        {{ $profiles->links() }}       
+        {{ $permissoes->links() }}       
     </div>
     <!-- /.card-body -->
 </div>
@@ -82,9 +82,9 @@
             <form id="frm" action="" method="post">            
             @csrf
             @method('DELETE')
-            <input id="id_profile" name="profile_id" type="hidden" value=""/>
+            <input id="id_permissao" name="permissao_id" type="hidden" value=""/>
                 <div class="modal-header">
-                    <h4 class="modal-title">Remover Perfil!</h4>
+                    <h4 class="modal-title">Remover Permissão!</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -116,21 +116,21 @@
 
             //FUNÇÃO PARA EXCLUIR
             $('.j_modal_btn').click(function() {
-                var profile_id = $(this).data('id');                
+                var permissao_id = $(this).data('id');                
                 $.ajax({
                     type: 'GET',
                     dataType: 'JSON',
-                    url: "{{ route('profiles.delete') }}",
+                    url: "{{ route('permissoes.delete') }}",
                     data: {
-                       'id': profile_id
+                       'id': permissao_id
                     },
                     success:function(data) {
                         if(data.error){
                             $('.j_param_data').html(data.error);
-                            $('#id_profile').val(data.id);
-                            $('#frm').prop('action',"{{ route('profiles.deleteon') }}");
+                            $('#id_permissao').val(data.id);
+                            $('#frm').prop('action',"{{ route('permissoes.deleteon') }}");
                         }else{
-                            $('#frm').prop('action',"{{ route('profiles.deleteon') }}");
+                            $('#frm').prop('action',"{{ route('permissoes.deleteon') }}");
                         }
                     }
                 });

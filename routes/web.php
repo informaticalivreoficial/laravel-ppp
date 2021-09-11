@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ACL\PermissaoController;
 use App\Http\Controllers\ACL\ProfileController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\DetailPlanController;
@@ -16,6 +17,15 @@ Route::prefix('admin')->group( function(){
     Route::get('profiles/create', [ProfileController::class, 'create'])->name('profiles.create');
     Route::post('profiles/store', [ProfileController::class, 'store'])->name('profiles.store');
     Route::get('profiles', [ProfileController::class, 'index'])->name('profiles.index');
+
+    /** Permissões */ 
+    Route::delete('permissoes/deleteon', [PermissaoController::class, 'deleteon'])->name('permissoes.deleteon');
+    Route::get('permissoes/delete', [PermissaoController::class, 'delete'])->name('permissoes.delete');
+    Route::put('permissoes/{permissao}', [PermissaoController::class, 'update'])->name('permissoes.update');
+    Route::get('permissoes/{permissao}/edit', [PermissaoController::class, 'edit'])->name('permissoes.edit');
+    Route::get('permissoes/create', [PermissaoController::class, 'create'])->name('permissoes.create');
+    Route::post('permissoes/store', [PermissaoController::class, 'store'])->name('permissoes.store');
+    Route::get('permissoes', [PermissaoController::class, 'index'])->name('permissoes.index');
 
     /** Detalhes dos Planos */
     Route::post('planos/{slug}/details', [DetailPlanController::class, 'store'])->name('plan.details.store');
