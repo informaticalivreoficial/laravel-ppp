@@ -21,7 +21,7 @@
 @section('content')
 <div class="row">
     <div class="col-12">
-        @if($errors->all())
+    @if($errors->all())
         @foreach($errors->all() as $error)
             @message(['color' => 'danger'])
             {{ $error }}

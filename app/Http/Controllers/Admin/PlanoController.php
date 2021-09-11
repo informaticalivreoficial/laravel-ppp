@@ -36,10 +36,10 @@ class PlanoController extends Controller
         ])->with(['color' => 'success', 'message' => 'Plano cadastrado com sucesso!']);
     }
     
-    public function show($id)
-    {
-        //
-    }
+    // public function show($id)
+    // {
+    //     //
+    // }
     
     public function edit($id)
     {

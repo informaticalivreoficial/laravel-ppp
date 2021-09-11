@@ -25,9 +25,7 @@ $config = [
 @endphp
 @section('plugins.Summernote', true)
 
-@section('css')
-
-@stop
+@include('admin.includes.configtexteditor')
 
 @section('content_header')
 <div class="row mb-2">
@@ -102,9 +100,4 @@ $config = [
         </div>
     </div>            
 </div>
-@stop
-
-
-
-@section('js')
 @stop
