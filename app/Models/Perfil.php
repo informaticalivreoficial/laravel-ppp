@@ -15,4 +15,35 @@ class Perfil extends Model
         'name',
         'content'
     ];
+
+    /**
+     * Scopes
+     */
+    public function permissionsAvailable($filter = null)
+    {
+        $permissions = Permissoes::whereNotIn('permissoes.id', function($query) {
+            $query->select('perfil_permissoes.permissoes_id');
+            $query->from('perfil_permissoes');
+            $query->whereRaw("perfil_permissoes.perfil_id={$this->id}");
+        })
+        ->where(function ($queryFilter) use ($filter) {
+            if ($filter)
+                $queryFilter->where('permissoes.name', 'LIKE', "%{$filter}%");
+        })
+        ->paginate();
+
+        return $permissions;
+    }   
+
+    /**
+     * Relacionamentos
+     */
+    public function permissoes()
+    {
+        return $this->belongsToMany(Permissoes::class);
+    }
+
+    /**
+     * Accerssors and Mutators
+     */
 }

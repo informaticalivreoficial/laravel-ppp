@@ -53,8 +53,9 @@
                     <tr>                            
                         <td>{{$profile->name}}</td>
                         <td>
-                            <a data-toggle="tooltip" data-placement="top" title="Editar Plano" href="{{route('profiles.edit',[ 'profile' =>$profile->id] )}}" class="btn btn-xs btn-default"><i class="fas fa-pen"></i></a>
-                            <button data-placement="top" title="Remover Perfil" type="button" class="btn btn-xs btn-danger text-white j_modal_btn" data-id="{{$profile->id}}" data-toggle="modal" data-target="#modal-default"><i class="fas fa-trash"></i></button>
+                            <a data-toggle="tooltip" data-placement="top" title="Permissões" href="{{ route('profiles.permissoes', $profile->id ) }}" class="btn btn-xs btn-primary"><i class="fas fa-lock"></i></a>
+                            <a data-toggle="tooltip" data-placement="top" title="Editar Plano" href="{{ route('profiles.edit',[ 'profile' =>$profile->id] ) }}" class="btn btn-xs btn-default"><i class="fas fa-pen"></i></a>
+                            <button data-placement="top" title="Remover Perfil" type="button" class="btn btn-xs btn-danger text-white j_modal_btn" data-id="{{ $profile->id }}" data-toggle="modal" data-target="#modal-default"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                     @endforeach

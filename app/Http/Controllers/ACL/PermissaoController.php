@@ -11,7 +11,7 @@ class PermissaoController extends Controller
 {
     public function index()
     {
-        $permissoes = Permissoes::orderBy('created_at', 'DESC')->paginate();
+        $permissoes = Permissoes::paginate();
 
         return view('admin.permissoes.index',[
             'permissoes' => $permissoes

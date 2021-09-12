@@ -15,4 +15,21 @@ class Permissoes extends Model
         'name',
         'content'
     ];
+
+    /**
+     * Scopes
+     */
+       
+
+    /**
+     * Relacionamentos
+     */
+    public function perfil()
+    {
+        return $this->belongsToMany(Perfil::class);
+    }
+
+    /**
+     * Accerssors and Mutators
+     */
 }

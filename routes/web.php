@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ACL\PermissaoController;
+use App\Http\Controllers\ACL\PermissaoPerfilController;
 use App\Http\Controllers\ACL\ProfileController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\DetailPlanController;
@@ -8,6 +9,12 @@ use App\Http\Controllers\Admin\PlanoController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->group( function(){
+
+    /** Perfis X Permissões*/
+    Route::get('profiles/{id}/permissoes/{idPermissao}/dettach', [PermissaoPerfilController::class, 'dettachPermissionProfile'])->name('profiles.permissoes.dettach');
+    Route::post('profiles/{id}/permissoes', [PermissaoPerfilController::class, 'attachPermissionProfile'])->name('profiles.permissoes.attach');
+    Route::match(['get', 'post'],'profiles/{id}/permissoes/create', [PermissaoPerfilController::class, 'permissoesAvalible'])->name('profiles.permissoes.available');
+    Route::get('profiles/{id}/permissoes', [PermissaoPerfilController::class, 'permissoes'])->name('profiles.permissoes');
 
     /** Perfis */
     Route::delete('profiles/deleteon', [ProfileController::class, 'deleteon'])->name('profiles.deleteon');

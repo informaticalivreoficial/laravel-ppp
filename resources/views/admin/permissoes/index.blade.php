@@ -40,7 +40,7 @@
                 @endif
             </div>            
         </div>
-        @if(!empty($profiles) && $profiles->count() > 0)
+        @if(!empty($permissoes) && $permissoes->count() > 0)
             <table class="table table-bordered table-striped projects">
                 <thead>
                     <tr>
