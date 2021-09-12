@@ -7,9 +7,10 @@ use App\Http\Controllers\ACL\ProfileController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\DetailPlanController;
 use App\Http\Controllers\Admin\PlanoController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('admin')->group( function(){
+Route::prefix('admin')->middleware('auth')->group( function(){
 
     /** Planos X Permissões*/
     Route::get('planos/{id}/perfis/{idPerfil}/dettach', [PlanoPerfilController::class, 'dettachPlanoPerfil'])->name('planos.perfis.dettach');
@@ -64,3 +65,5 @@ Route::prefix('admin')->group( function(){
     Route::get('/', [AdminController::class, 'home'])->name('home');
 });
 
+/** Rotas de autenticação */
+Auth::routes();
