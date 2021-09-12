@@ -89,8 +89,12 @@
             </div>
         @endif
     </div>
-    <div class="card-footer paginacao">  
-        {{ $permissoes->links() }}       
+    <div class="card-footer paginacao"> 
+        @if (isset($filters))
+            {{ $permissoes->appends($filters)->links() }}
+        @else
+            {{ $permissoes->links() }} 
+        @endif  
     </div>
     <!-- /.card-body -->
 </div>
