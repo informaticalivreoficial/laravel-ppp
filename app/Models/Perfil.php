@@ -38,9 +38,15 @@ class Perfil extends Model
     /**
      * Relacionamentos
      */
+    //Get Permissoes
     public function permissoes()
     {
         return $this->belongsToMany(Permissoes::class);
+    }
+
+    public function planos()
+    {
+        return $this->belongsToMany(Plano::class);
     }
 
     /**

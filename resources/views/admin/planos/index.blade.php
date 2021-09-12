@@ -76,6 +76,7 @@
                             <input type="checkbox" data-onstyle="success" data-offstyle="warning" data-size="mini" class="toggle-class" data-id="{{ $plano->id }}" data-toggle="toggle" data-style="slow" data-on="<i class='fas fa-check'></i>" data-off="<i style='color:#fff !important;' class='fas fa-exclamation-triangle'></i>" {{ $plano->status == true ? 'checked' : ''}}>
                             <a data-toggle="tooltip" data-placement="top" title="Editar Plano" href="{{route('planos.edit',$plano->id)}}" class="btn btn-xs btn-default"><i class="fas fa-pen"></i></a>
                             <a data-toggle="tooltip" data-placement="top" title="Detalhes do Plano" href="{{route('plan.details.index',$plano->slug)}}" class="btn btn-xs btn-primary">Detalhes</a>
+                            <a data-toggle="tooltip" data-placement="top" title="Permissões" href="{{ route('planos.perfis', $plano->id ) }}" class="btn btn-xs btn-primary"><i class="fas fa-lock"></i></a>
                             <button data-placement="top" title="Remover Plano" type="button" class="btn btn-xs btn-danger text-white j_modal_btn" data-id="{{$plano->id}}" data-toggle="modal" data-target="#modal-default"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>

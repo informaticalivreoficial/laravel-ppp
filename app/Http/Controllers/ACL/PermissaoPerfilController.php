@@ -17,7 +17,7 @@ class PermissaoPerfilController extends Controller
             return redirect()->back()->with(['color' => 'danger', 'message' => 'Operação Inválida!']);
         }
 
-        $permissoes = $perfil->permissoes()->paginate();;
+        $permissoes = $perfil->permissoes()->paginate();
 
         return view('admin.profiles.permissions.index',[
             'perfil' => $perfil,

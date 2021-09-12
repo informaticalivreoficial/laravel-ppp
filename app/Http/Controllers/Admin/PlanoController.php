@@ -32,7 +32,7 @@ class PlanoController extends Controller
         $criarPlano->setSlug();
         
         return redirect()->route('planos.edit', [
-            'plano' => $criarPlano->id,
+            'id' => $criarPlano->id,
         ])->with(['color' => 'success', 'message' => 'Plano cadastrado com sucesso!']);
     }
     

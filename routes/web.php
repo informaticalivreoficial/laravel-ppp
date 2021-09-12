@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ACL\PermissaoController;
 use App\Http\Controllers\ACL\PermissaoPerfilController;
+use App\Http\Controllers\ACL\PlanoPerfilController;
 use App\Http\Controllers\ACL\ProfileController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\DetailPlanController;
@@ -10,6 +11,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->group( function(){
 
+    /** Planos X Permissões*/
+    Route::get('planos/{id}/perfis/{idPerfil}/dettach', [PlanoPerfilController::class, 'dettachPlanoPerfil'])->name('planos.perfis.dettach');
+    Route::post('planos/{id}/perfis', [PlanoPerfilController::class, 'attachPlanoPerfil'])->name('planos.perfis.attach');
+    Route::match(['get', 'post'],'planos/{id}/perfis/create', [PlanoPerfilController::class, 'planosAvalible'])->name('planos.perfis.available');
+    Route::get('planos/{id}/perfis', [PlanoPerfilController::class, 'planos'])->name('planos.perfis');
+   
     /** Perfis X Permissões*/
     Route::get('profiles/{id}/permissoes/{idPermissao}/dettach', [PermissaoPerfilController::class, 'dettachPermissionProfile'])->name('profiles.permissoes.dettach');
     Route::post('profiles/{id}/permissoes', [PermissaoPerfilController::class, 'attachPermissionProfile'])->name('profiles.permissoes.attach');

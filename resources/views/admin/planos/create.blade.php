@@ -25,8 +25,6 @@ $config = [
 @endphp
 @section('plugins.Summernote', true)
 
-@include('admin.includes.configtexteditor')
-
 @section('content_header')
 <div class="row mb-2">
     <div class="col-sm-6">

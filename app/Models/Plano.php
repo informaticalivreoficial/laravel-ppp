@@ -30,7 +30,23 @@ class Plano extends Model
     public function scopeUnavailable($query)
     {
         return $query->where('status', 0);
-    }    
+    } 
+    
+    public function perfisAvailable($filter = null)
+    {
+        $perfis = Perfil::whereNotIn('perfils.id', function($query) {
+            $query->select('perfil_plano.perfil_id');
+            $query->from('perfil_plano');
+            $query->whereRaw("perfil_plano.plano_id={$this->id}");
+        })
+        ->where(function ($queryFilter) use ($filter) {
+            if ($filter)
+                $queryFilter->where('perfils.name', 'LIKE', "%{$filter}%");
+        })
+        ->paginate();
+
+        return $perfis;
+    }
 
     /**
      * Relacionamentos
@@ -38,6 +54,11 @@ class Plano extends Model
     public function details()
     {
         return $this->hasMany(DetailPlan::class,'plano', 'id');
+    }
+    //Get Perfis
+    public function perfils()
+    {
+        return $this->belongsToMany(Perfil::class);
     }
 
      /**

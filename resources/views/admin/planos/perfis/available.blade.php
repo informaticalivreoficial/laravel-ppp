@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Permissões disponíveis para '.$perfil->name)
+@section('title', 'Perfis disponíveis para '.$plano->name)
 
 @section('css')
 <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
@@ -9,13 +9,13 @@
 @section('content_header')
 <div class="row mb-2">
     <div class="col-sm-6">
-        <h1><i class="fas fa-search mr-2"></i> Permissões disponíveis para {{$perfil->name}}</h1>
+        <h1><i class="fas fa-search mr-2"></i> Perfis disponíveis para {{$plano->name}}</h1>
     </div>
     <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{{route('home')}}">Painel de Controle</a></li>
-            <li class="breadcrumb-item"><a href="{{route('profiles.permissoes',$perfil->id)}}">Permissões</a></li>
-            <li class="breadcrumb-item active">Permissões disponíveis</li>
+            <li class="breadcrumb-item"><a href="{{route('planos.perfis',$plano->id)}}">Perfis</a></li>
+            <li class="breadcrumb-item active">Perfis disponíveis</li>
         </ol>
     </div>
 </div> 
@@ -25,10 +25,10 @@
 <div class="card">
     <div class="card-header">
         <div class="row">  
-            <div class="col-12 col-sm-6 my-2">
+            <div class="col-12 my-2">
                 <div class="card-tools">
                     <div style="width: 250px;">
-                        <form class="input-group input-group-sm" action="{{route('profiles.permissoes.available', $perfil->id)}}" method="post">
+                        <form class="input-group input-group-sm" action="{{route('planos.perfis.available', $plano->id)}}" method="post">
                             @csrf   
                             <input type="text" name="filter" value="{{ $filters['filter'] ?? '' }}" class="form-control float-right" placeholder="Pesquisar">
             
@@ -40,10 +40,7 @@
                         </form>
                     </div>
                 </div>
-            </div>          
-            <div class="col-12 col-sm-6 my-2 text-right">
-                <a href="{{ route('profiles.permissoes.available', $perfil->id) }}" class="btn btn-sm btn-default"><i class="fas fa-plus mr-2"></i> Adicionar Permissão</a>
-            </div>
+            </div> 
         </div>
       </div>    
     <!-- /.card-header -->
@@ -57,15 +54,15 @@
                 @endif
             </div>            
         </div>
-        @if($permissoes->count() > 0)    
-        <form class="mt-3 d-inline" action="{{route('profiles.permissoes.attach', $perfil->id)}}" method="post"> 
+        @if($perfis->count() > 0)    
+        <form class="mt-3 d-inline" action="{{route('planos.perfis.attach', $plano->id)}}" method="post"> 
             @csrf     
-            @foreach($permissoes as $permissao)                       
+            @foreach($perfis as $perfil)                       
                                                     
                 <div class="form-group p-3 mb-1 col-12 col-sm-6 col-md-4 col-lg-3" style="float:left;">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="{{$permissao->id}}" name="permissions[]" value="{{$permissao->id}}">
-                        <label for="{{$permissao->id}}" class="form-check-label">{{$permissao->name}}</label>
+                        <input class="form-check-input" type="checkbox" id="{{$perfil->id}}" name="perfis[]" value="{{$perfil->id}}">
+                        <label for="{{$perfil->id}}" class="form-check-label">{{$perfil->name}}</label>
                     </div>
                 </div>                             
             
@@ -89,8 +86,12 @@
             </div>
         @endif
     </div>
-    <div class="card-footer paginacao">  
-        {{ $permissoes->links() }}       
+    <div class="card-footer paginacao">
+        @if (isset($filters))
+            {{ $perfis->appends($filters)->links() }}
+        @else
+            {{ $perfis->links() }}
+        @endif 
     </div>
     <!-- /.card-body -->
 </div>
